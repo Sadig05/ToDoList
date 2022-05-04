@@ -1,0 +1,36 @@
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+body {
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+
+ul {
+    background-color: aqua;
+}
+
+li {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 12px 16px 12px 16px;
+}
+
+.strike {
+    text-decoration: line-through;
+}
