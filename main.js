@@ -10,57 +10,59 @@ addButton.addEventListener('click', newElement);
 
 
 function newElement() {
-    let inpVal = input.value;
-    let li = document.createElement("li");
-
-    let p = document.createElement('p');
-    p.textContent = inpVal;
-    let check = document.createElement("input");
-    check.setAttribute('type', 'checkbox');
-    li.appendChild(check);
-    li.appendChild(p);
-    let x = document.createElement("i");
-    x.className = "fa fa-close";
-    li.appendChild(x);
-
-
-
-    if (inpVal.trim() != 0) {
-        container.appendChild(li);
-        let localItems = JSON.parse(localStorage.getItem('localItem'));
+    if (input.value.trim() != 0) {
+        let localItems = JSON.parse(localStorage.getItem('localItem'))
         if (localItems === null) {
             taskList = [];
         } else {
             taskList = localItems;
         }
-        taskList.push(inpVal);
+        taskList.push(input.value)
         localStorage.setItem('localItem', JSON.stringify(taskList));
     }
-    input.value = "";
 
-
-    let del = document.getElementsByTagName('i');
-    let temp = Array.from(del);
-    temp.forEach(element => {
-        element.addEventListener('click', function () {
-            this.parentNode.remove();
-        })
-    });
-
-    let checked = document.querySelectorAll('input[type=checkbox]');
-
-    checked.forEach(el => {
-        el.addEventListener('change', function () {
-            if (this.checked) {
-                this.nextSibling.classList.add("strike");
-            } else {
-                this.nextSibling.classList.remove('strike');
-            }
-        })
-    })
+    showItem()
 
 }
 
+function showItem() {
+    let localItems = JSON.parse(localStorage.getItem('localItem'))
+    if (localItems === null) {
+        taskList = [];
+
+    } else {
+        taskList = localItems;
+    }
+
+    let li = "";
+    taskList.forEach((data, index) => {
+
+        li += `
+        <li>
+        <input type = "checkbox"></input>
+        <p>${data}</p>
+        <i class = "fa fa-close" onclick = "deleteStorage(${index})"></i>
+        </li>
+        `
+        input.value = "";
+
+    });
+    container.innerHTML = li;
+}
+
+showItem();
+
+
+function deleteStorage(index) {
+    // let localItems = JSON.parse(localStorage.getItem('localItem'));
+    taskList.splice(index, 1);
+    localStorage.setItem('localItem', JSON.stringify(taskList));
+    showItem();
+}
+
+
 clearAll.addEventListener('click', function () {
     container.innerHTML = "";
+    localStorage.clear();
+    showItem();
 })
